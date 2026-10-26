@@ -1,0 +1,75 @@
+@startuml
+title SwingPaintProgram – Command minta és alakzathierarchia
+skinparam classAttributeIconSize 0
+
+package "model" {
+  class Rajz {
+    - alakzatok: List<Alakzat>
+    + getAlakzatok(): List<Alakzat>
+    + hozzaad(alakzat: Alakzat): void
+    + beszur(index: int, alakzat: Alakzat): void
+    + torol(alakzat: Alakzat): boolean
+    + indexOf(alakzat: Alakzat): int
+    + meret(): int
+  }
+
+  abstract class Alakzat {
+    - szin: Color
+    - vonalvastagsag: float
+    + rajzol(g: Graphics2D): void
+    + tartalmaz(p: Point): boolean
+    + eltol(dx: int, dy: int): void
+    + getSzin(): Color
+    + setSzin(szin: Color): void
+  }
+
+  class Vonal
+  class Teglalap
+  class Ellipszis
+
+  Rajz "1" *-- "0..*" Alakzat
+  Alakzat <|-- Vonal
+  Alakzat <|-- Teglalap
+  Alakzat <|-- Ellipszis
+}
+
+package "command" {
+  interface Parancs {
+    + vegrehajt(): void
+    + visszavon(): void
+  }
+
+  class ParancsKezelo {
+    - visszavonhato: Deque<Parancs>
+    - ujrahajthato: Deque<Parancs>
+    + futtat(parancs: Parancs): void
+    + visszavon(): void
+    + ujra(): void
+  }
+
+  class HozzaadParancs
+  class TorolParancs
+  class MozgatParancs
+  class SzinValtoParancs
+
+  Parancs <|.. HozzaadParancs
+  Parancs <|.. TorolParancs
+  Parancs <|.. MozgatParancs
+  Parancs <|.. SzinValtoParancs
+  ParancsKezelo "1" o-- "0..*" Parancs : undo / redo
+  HozzaadParancs ..> Rajz
+  TorolParancs ..> Rajz
+  MozgatParancs ..> Alakzat
+  SzinValtoParancs ..> Alakzat
+}
+
+package "ui" {
+  class RajzAblak
+  class RajzVaszon
+  enum RajzEszkoz
+  RajzAblak *-- RajzVaszon
+  RajzVaszon --> Rajz
+  RajzVaszon --> ParancsKezelo
+  RajzVaszon --> RajzEszkoz
+}
+@enduml

@@ -4,7 +4,7 @@ import com.mycompany.swingpaintprogram.model.Alakzat;
 import com.mycompany.swingpaintprogram.model.Rajz;
 import java.util.Objects;
 
-
+/** Removes a shape while preserving its drawing order for undo. */
 public class TorolParancs implements Parancs {
 
     private final Rajz rajz;
