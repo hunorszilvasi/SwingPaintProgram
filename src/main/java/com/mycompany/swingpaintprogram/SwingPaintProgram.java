@@ -1,16 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
-
 package com.mycompany.swingpaintprogram;
 
-/**
- *
- * @author hunorszilvasi
- */
+import com.mycompany.swingpaintprogram.ui.RajzAblak;
+import javax.swing.SwingUtilities;
+
 public class SwingPaintProgram {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        SwingUtilities.invokeLater(() -> new RajzAblak().setVisible(true));
     }
 }

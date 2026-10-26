@@ -33,7 +33,13 @@ public class Teglalap extends Alakzat {
 
     @Override
     public boolean tartalmaz(Point p) {
-        return alakzatGeometria().contains(p);
+        Rectangle2D hatar = alakzatGeometria();
+        double tolerancia = Math.max(4.0, getVonalvastagsag() / 2.0 + 2.0);
+        return new Rectangle2D.Double(
+                hatar.getX() - tolerancia,
+                hatar.getY() - tolerancia,
+                hatar.getWidth() + tolerancia * 2,
+                hatar.getHeight() + tolerancia * 2).contains(p);
     }
 
     @Override
